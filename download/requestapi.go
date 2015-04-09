@@ -1,8 +1,8 @@
 package download
 
 import (
-	"github.com/patdowney/downloaderd/api"
-	"github.com/patdowney/downloaderd/common"
+	"github.com/patdowney/downloaderd-request/api"
+	"github.com/patdowney/downloaderd-request/common"
 )
 
 func ToAPIRequestList(origList *[]*Request) *[]*api.Request {

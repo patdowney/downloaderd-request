@@ -1,8 +1,9 @@
 package download
 
 import (
-	"github.com/patdowney/downloaderd/common"
 	"time"
+
+	"github.com/patdowney/downloaderd-request/common"
 )
 
 // Error ...

@@ -1,16 +1,19 @@
 package local
 
 import (
-	"github.com/patdowney/downloaderd/download"
 	"sync"
+
+	"github.com/patdowney/downloaderd-request/download"
 )
 
+// RequestStore ...
 type RequestStore struct {
 	JSONStore
 	sync.RWMutex
 	repository []*download.Request
 }
 
+// NewRequestStore ...
 func NewRequestStore(dataFile string) (*RequestStore, error) {
 	requestStore := &RequestStore{
 		repository: make([]*download.Request, 0)}
@@ -22,6 +25,7 @@ func NewRequestStore(dataFile string) (*RequestStore, error) {
 	return requestStore, err
 }
 
+// Add ...
 func (s *RequestStore) Add(request *download.Request) error {
 	s.Lock()
 	defer s.Unlock()
@@ -32,6 +36,7 @@ func (s *RequestStore) Add(request *download.Request) error {
 	return err
 }
 
+// FindByID ...
 func (s *RequestStore) FindByID(requestID string) (*download.Request, error) {
 	s.RLock()
 	defer s.RUnlock()
@@ -43,6 +48,7 @@ func (s *RequestStore) FindByID(requestID string) (*download.Request, error) {
 	return nil, nil
 }
 
+// FindByResourceKey ...
 func (s *RequestStore) FindByResourceKey(resourceKey download.ResourceKey, offset uint, count uint) ([]*download.Request, error) {
 	s.RLock()
 	defer s.RUnlock()
@@ -55,6 +61,7 @@ func (s *RequestStore) FindByResourceKey(resourceKey download.ResourceKey, offse
 	return results, nil
 }
 
+// FindAll ...
 func (s *RequestStore) FindAll(offset uint, count uint) ([]*download.Request, error) {
 	s.RLock()
 	defer s.RUnlock()

@@ -1,27 +1,27 @@
 package download
 
 import (
-	"errors"
 	"fmt"
-	"github.com/patdowney/downloaderd/common"
 	"net/http"
+
+	"github.com/patdowney/downloaderd-request/common"
 )
 
 // RequestService ...
 type RequestService struct {
-	Clock           common.Clock
-	IDGenerator     IDGenerator
-	requestStore    RequestStore
-	downloadService *Service
+	Clock          common.Clock
+	IDGenerator    IDGenerator
+	requestStore   RequestStore
+	downloadClient Client
 }
 
 // NewRequestService ...
-func NewRequestService(requestStore RequestStore, downloadService *Service) *RequestService {
+func NewRequestService(requestStore RequestStore, downloadClient Client) *RequestService {
 	s := RequestService{
-		IDGenerator:     &UUIDGenerator{},
-		Clock:           &common.RealClock{},
-		requestStore:    requestStore,
-		downloadService: downloadService}
+		IDGenerator:    &UUIDGenerator{},
+		Clock:          &common.RealClock{},
+		requestStore:   requestStore,
+		downloadClient: downloadClient}
 
 	return &s
 }
@@ -42,14 +42,15 @@ func (s *RequestService) ProcessNewRequest(downloadRequest *Request) (*Request, 
 	} else {
 		downloadRequest.Metadata = m
 		if m.StatusCode == http.StatusOK {
-			download, err := s.downloadService.ProcessRequest(downloadRequest)
+			download, err := s.downloadClient.ProcessRequest(downloadRequest)
 			if err != nil {
 				downloadRequest.AddError(err, s.Clock.Now())
 			}
-			downloadRequest.DownloadID = download.ID
+			if download != nil {
+				downloadRequest.DownloadID = download.ID
+			}
 		} else {
-			em := fmt.Sprintf("non-200 response from source")
-			err = errors.New(em)
+			err := fmt.Errorf("non-200 response from source")
 
 			downloadRequest.AddError(err, s.Clock.Now())
 		}

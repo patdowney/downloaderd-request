@@ -1,12 +1,14 @@
 package http_test
 
 import (
-	"github.com/gorilla/mux"
-	"github.com/patdowney/downloaderd/api"
-	dh "github.com/patdowney/downloaderd/http"
 	"net/url"
 	"strings"
 	"testing"
+
+	"github.com/gorilla/mux"
+
+	"github.com/patdowney/downloaderd-request/api"
+	dh "github.com/patdowney/downloaderd-request/http"
 )
 
 func TestURLResolving(t *testing.T) {
@@ -54,7 +56,7 @@ func TestParseCompleteRequest(t *testing.T) {
 	res := dh.RequestResource{}
 
 	jsonString := `{ "url": "http://example.com/some/resource", "checksum": "abcde", "checksum_type": "abc", "callback": "http://example.com/callback" }`
-	incomingJson := strings.NewReader(jsonString)
+	incomingJSON := strings.NewReader(jsonString)
 
 	expectedIncoming := api.IncomingRequest{
 		URL:          "http://example.com/some/resource",
@@ -62,7 +64,7 @@ func TestParseCompleteRequest(t *testing.T) {
 		ChecksumType: "abc",
 		Callback:     "http://example.com/callback"}
 
-	r, _ := res.DecodeInputRequest(incomingJson)
+	r, _ := res.DecodeInputRequest(incomingJSON)
 	if *r != expectedIncoming {
 		t.Errorf(`DecodeInputRequest('%s') = %q want %q`, jsonString, r, expectedIncoming)
 	}
@@ -72,11 +74,11 @@ func TestParseWithPartialRequest(t *testing.T) {
 	res := dh.RequestResource{}
 
 	jsonString := `{ "url": "http://example.com/some/resource" }`
-	incomingJson := strings.NewReader(jsonString)
+	incomingJSON := strings.NewReader(jsonString)
 
 	expectedIncoming := api.IncomingRequest{URL: "http://example.com/some/resource"}
 
-	r, _ := res.DecodeInputRequest(incomingJson)
+	r, _ := res.DecodeInputRequest(incomingJSON)
 	if *r != expectedIncoming {
 		t.Errorf(`DecodeInputRequest('%s') = %q want %q`, jsonString, r, expectedIncoming)
 	}

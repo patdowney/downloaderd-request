@@ -4,14 +4,15 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/gorilla/mux"
-	"github.com/patdowney/downloaderd/api"
-	"github.com/patdowney/downloaderd/common"
-	"github.com/patdowney/downloaderd/download"
 	"io"
 	"log"
 	"net/http"
 	"net/url"
+
+	"github.com/gorilla/mux"
+	"github.com/patdowney/downloaderd-request/api"
+	"github.com/patdowney/downloaderd-request/common"
+	"github.com/patdowney/downloaderd-request/download"
 )
 
 // RequestResource ...

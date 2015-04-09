@@ -1,9 +1,10 @@
 package download
 
 import (
-	"github.com/patdowney/downloaderd/api"
+	"github.com/patdowney/downloaderd-request/api"
 )
 
+// ToAPIMetadata ...
 func ToAPIMetadata(dm *Metadata) *api.Metadata {
 	m := &api.Metadata{
 		TimeRequested: dm.TimeRequested,
