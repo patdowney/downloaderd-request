@@ -37,7 +37,7 @@ func ParseArgs() *Config {
 	c := &Config{}
 	flag.StringVar(&c.ListenAddress, "http", "localhost:8090", "address to listen on")
 	flag.StringVar(&c.RethinkDBAddress, "rethinkdb", "localhost:28015", "address to connect to")
-	flag.StringVar(&c.DownloadServiceURL, "downloadurl", "http://localhost:8080", "download agent service")
+	flag.StringVar(&c.DownloadServiceURL, "downloadurl", "http://localhost:8080/download/", "download agent service")
 	flag.StringVar(&c.RequestDataFile, "requestdata", "requests.json", "request database file")
 	flag.Parse()
 
@@ -68,7 +68,7 @@ func CreateServer(config *Config) {
 	linkResolver.DefaultScheme = "http"
 	linkResolver.DefaultHost = config.ListenAddress
 
-	downloadURL, _ := url.Parse("http://localhost:8080")
+	downloadURL, _ := url.Parse(config.DownloadServiceURL)
 
 	downloadClient, _ := download.NewHTTPClient(downloadURL)
 

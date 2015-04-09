@@ -2,7 +2,7 @@ package rethinkdb
 
 import (
 	r "github.com/dancannon/gorethink"
-	"github.com/patdowney/downloaderd/download"
+	"github.com/patdowney/downloaderd-request/download"
 )
 
 type RequestStore struct {

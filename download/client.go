@@ -1,10 +1,14 @@
 package download
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"net/url"
+
+	"github.com/patdowney/downloaderd-request/api"
 )
 
 // Client ...
@@ -23,7 +27,35 @@ func (c *HTTPClient) ProcessRequest(r *Request) (*Download, error) {
 	p, _ := json.MarshalIndent(r, "", "  ")
 	log.Printf("p:%v", string(p))
 
-	return nil, fmt.Errorf("not implemented yet")
+	rr := api.IncomingDownload{
+		RequestID:    r.ID,
+		URL:          r.URL,
+		Checksum:     r.Checksum,
+		ChecksumType: r.ChecksumType,
+		Callback:     r.Callback,
+		ETag:         r.Metadata.ETag,
+	}
+
+	return c.postRequest(rr)
+}
+
+func (c *HTTPClient) postRequest(r api.IncomingDownload) (*Download, error) {
+	p, _ := json.MarshalIndent(r, "", "  ")
+	log.Printf("p:%v", string(p))
+
+	jsonBytes, err := json.Marshal(r)
+	if err != nil {
+		return nil, err
+	}
+
+	byteReader := bytes.NewReader(jsonBytes)
+	res, err := http.Post(c.URL.String(), "application/json", byteReader)
+	defer res.Body.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, fmt.Errorf("postRequest: status: %v", res.StatusCode)
 }
 
 // NewHTTPClient ...
