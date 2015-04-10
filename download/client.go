@@ -50,7 +50,11 @@ func (c *HTTPClient) postRequest(r api.IncomingDownload) (*Download, error) {
 
 	byteReader := bytes.NewReader(jsonBytes)
 	res, err := http.Post(c.URL.String(), "application/json", byteReader)
-	defer res.Body.Close()
+	defer func() {
+		err := res.Body.Close()
+		log.Printf("%v\n", err)
+	}()
+
 	if err != nil {
 		return nil, err
 	}

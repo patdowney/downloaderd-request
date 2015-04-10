@@ -3,12 +3,12 @@ package download
 import (
 	"time"
 
-	"github.com/patdowney/downloaderd-request/common"
+	"github.com/patdowney/downloaderd-common/common"
 )
 
 // Error ...
 type Error struct {
-	common.ErrorWrapper
+	common.TimestampedError
 	DownloadID string
 }
 
@@ -23,7 +23,7 @@ func NewError(id string, err error, errorTime time.Time) *Error {
 
 // RequestError ...
 type RequestError struct {
-	common.ErrorWrapper
+	common.TimestampedError
 }
 
 // NewRequestError ...

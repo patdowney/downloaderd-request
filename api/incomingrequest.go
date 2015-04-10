@@ -1,5 +1,6 @@
 package api
 
+// IncomingRequest ...
 type IncomingRequest struct {
 	URL          string `json:"url"`
 	Checksum     string `json:"checksum,omitempty"`

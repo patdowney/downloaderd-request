@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"os"
 
+	"github.com/patdowney/downloaderd-common/http"
 	"github.com/patdowney/downloaderd-request/api"
 	"github.com/patdowney/downloaderd-request/download"
 	dh "github.com/patdowney/downloaderd-request/http"
@@ -49,7 +50,7 @@ func ParseArgs() *Config {
 
 // CreateServer ...
 func CreateServer(config *Config) {
-	s := dh.NewServer(&dh.Config{ListenAddress: config.ListenAddress}, os.Stdout)
+	s := http.NewServer(&http.Config{ListenAddress: config.ListenAddress}, os.Stdout)
 
 	requestStore, err := local.NewRequestStore(config.RequestDataFile)
 	/*

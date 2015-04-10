@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/patdowney/downloaderd-request/common"
+	"github.com/patdowney/downloaderd-common/common"
 )
 
 // RequestService ...

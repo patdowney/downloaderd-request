@@ -10,8 +10,8 @@ import (
 	"net/url"
 
 	"github.com/gorilla/mux"
+	"github.com/patdowney/downloaderd-common/common"
 	"github.com/patdowney/downloaderd-request/api"
-	"github.com/patdowney/downloaderd-request/common"
 	"github.com/patdowney/downloaderd-request/download"
 )
 
@@ -53,7 +53,7 @@ func (r *RequestResource) populateLinks(req *http.Request, request *api.Request)
 
 // WrapError ...
 func (r *RequestResource) WrapError(err error) *api.Error {
-	return download.ToAPIError(common.NewErrorWrapper(err, r.Clock.Now()))
+	return download.ToAPIError(common.NewTimestampedError(err, r.Clock.Now()))
 }
 
 // Index ...

@@ -3,12 +3,13 @@ package local
 import (
 	"sync"
 
+	"github.com/patdowney/downloaderd-common/local"
 	"github.com/patdowney/downloaderd-request/download"
 )
 
 // RequestStore ...
 type RequestStore struct {
-	JSONStore
+	local.JSONStore
 	sync.RWMutex
 	repository []*download.Request
 }

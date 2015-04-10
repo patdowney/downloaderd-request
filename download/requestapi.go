@@ -1,10 +1,11 @@
 package download
 
 import (
+	"github.com/patdowney/downloaderd-common/common"
 	"github.com/patdowney/downloaderd-request/api"
-	"github.com/patdowney/downloaderd-request/common"
 )
 
+// ToAPIRequestList ...
 func ToAPIRequestList(origList *[]*Request) *[]*api.Request {
 	rs := make([]*api.Request, len(*origList))
 
@@ -15,6 +16,7 @@ func ToAPIRequestList(origList *[]*Request) *[]*api.Request {
 	return &rs
 }
 
+// ToAPIRequest ...
 func ToAPIRequest(orig *Request) *api.Request {
 	r := &api.Request{
 		ID:                   orig.ID,
@@ -34,7 +36,7 @@ func ToAPIRequest(orig *Request) *api.Request {
 	if len(orig.Errors) > 0 {
 		for _, e := range orig.Errors {
 			if e.OriginalError != "" {
-				r.Errors = append(r.Errors, ToAPIError(&e.ErrorWrapper))
+				r.Errors = append(r.Errors, ToAPIError(&e.TimestampedError))
 			}
 		}
 	}
@@ -42,6 +44,7 @@ func ToAPIRequest(orig *Request) *api.Request {
 	return r
 }
 
+// FromAPIIncomingRequest ...
 func FromAPIIncomingRequest(air *api.IncomingRequest) *Request {
 	downloadReq := &Request{
 		URL:          air.URL,
@@ -53,7 +56,8 @@ func FromAPIIncomingRequest(air *api.IncomingRequest) *Request {
 	return downloadReq
 }
 
-func ToAPIError(e *common.ErrorWrapper) *api.Error {
+// ToAPIError ...
+func ToAPIError(e *common.TimestampedError) *api.Error {
 	err := &api.Error{Time: e.Time}
 	if e.OriginalError != "" {
 		err.Error = e.OriginalError

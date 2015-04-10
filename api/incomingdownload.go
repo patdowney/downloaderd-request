@@ -4,8 +4,8 @@ package api
 type IncomingDownload struct {
 	RequestID    string `json:"request_id"`
 	URL          string `json:"url"`
-	Checksum     string `json:"checksum",omitempty`
-	ChecksumType string `json:"checksum_type",omitempty`
-	Callback     string `json:"callback",omitempty`
-	ETag         string `json:"etag",omitempty`
+	Checksum     string `json:"checksum"`
+	ChecksumType string `json:"checksum_type"`
+	Callback     string `json:"callback"`
+	ETag         string `json:"etag"`
 }
